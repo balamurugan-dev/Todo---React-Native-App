@@ -1,35 +1,47 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 
 export default function App() {
   var [names, setName] = useState([
-    { name: "bala", key: "1" },
-    { name: "Haha", key: "2" },
-    { name: "Tata", key: "3" },
-    { name: "Tata", key: "4" },
-    { name: "Tata", key: "5" },
-    { name: "Tata", key: "6" },
-    { name: "Tata", key: "7" },
-    { name: "Tata", key: "8" },
-    { name: "Tata", key: "9" },
-    { name: "Tata", key: "10" },
-    { name: "Tata", key: "11" },
+    { name: "bala", uId: "1" },
+    { name: "Haha", uId: "2" },
+    { name: "Tata", uId: "3" },
+    { name: "Tata", uId: "4" },
+    { name: "Tata", uId: "5" },
+    { name: "Tata", uId: "6" },
+    { name: "Tata", uId: "7" },
+    { name: "Tata", uId: "8" },
+    { name: "Tata", uId: "9" },
+    { name: "Tata", uId: "10" },
+    { name: "Tata", uId: "11" },
   ]);
+
+  const pressHandler = (id) => {
+    console.log(id);
+    setName((prevNames) => prevNames.filter((name) => name.uId != id));
+  };
 
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <Text>Names</Text>
-        {names.map((name) => (
-          <View style={styles.nameItem} key={name.key}>
-            <Text>{name.name}</Text>
-          </View>
-        ))}
-      </ScrollView>
+      <FlatList
+        numColumns={2}
+        keyExtractor={(item) => item.uId}
+        data={names}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => pressHandler(item.uId)}>
+            <Text style={styles.nameItem}>{item.name}</Text>
+          </TouchableOpacity>
+        )}
+      />
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -41,5 +53,6 @@ const styles = StyleSheet.create({
     backgroundColor: "green",
     padding: 30,
     marginBottom: 10,
+    marginHorizontal: 10,
   },
 });
